@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7f6f1">
+<title>RPS Studio｜猜拳小遊戲</title>
+<style>
+:root{--bg:#f7f6f1;--card:#fffefa;--ink:#262a25;--muted:#7c8178;--line:#e7e8df;--green:#526b54;--green-dark:#3e5741;--green-soft:#eaf0e7;--shadow:0 14px 36px rgba(37,44,35,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;min-height:100vh;display:flex;flex-direction:column}button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #b5c7af;outline-offset:3px}.page{width:min(100% - 32px,900px);margin:0 auto;flex:1;display:flex;flex-direction:column}
+header{display:flex;justify-content:space-between;align-items:center;padding:25px 0}.brand{display:flex;align-items:center;gap:11px}.mark{width:40px;height:40px;background:var(--green);color:white;border-radius:13px;display:grid;place-items:center;font-size:18px;font-weight:800}.brand-name{font-weight:800;letter-spacing:-.04em;font-size:16px}.brand-sub{font-size:11px;color:var(--muted);margin-top:2px}.pill{border:1px solid var(--line);background:#fffefa;border-radius:99px;padding:8px 12px;color:var(--muted);font-size:11px}
+main{width:100%;max-width:680px;margin:28px auto 55px}.intro{text-align:center;margin-bottom:28px}.eyebrow{font-size:10px;font-weight:800;letter-spacing:.18em;color:var(--green);margin-bottom:12px}.intro h1{font-size:clamp(30px,5vw,43px);letter-spacing:-.06em;line-height:1.15;margin:0;font-weight:800}.intro p{font-size:13px;color:var(--muted);margin:12px 0 0;line-height:1.8}
+.scoreboard{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:19px 24px;box-shadow:var(--shadow);margin-bottom:16px}.score{text-align:center}.score-label{font-size:11px;color:var(--muted)}.score-num{font-size:31px;font-weight:800;letter-spacing:-.06em;margin-top:2px}.vs{font-size:10px;color:#a6aa9f;letter-spacing:.15em;font-weight:800;padding:0 16px}
+.arena{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:25px 25px 22px;box-shadow:var(--shadow)}.arena-labels{display:grid;grid-template-columns:1fr 1fr;gap:12px}.arena-label{text-align:center;font-size:11px;color:var(--muted);font-weight:700}.battle{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 20px}.hand{height:150px;border-radius:18px;background:#f4f4ed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;transition:background .2s}.hand .emoji{font-size:55px;line-height:1}.hand .caption{font-size:11px;color:var(--muted)}.hand.reveal{background:var(--green-soft)}
+.result{min-height:76px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8px 5px 14px}.result-title{font-size:21px;font-weight:800;letter-spacing:-.04em}.result-sub{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.6}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.choice{border:1px solid var(--line);background:white;border-radius:15px;padding:14px 7px 12px;color:var(--ink);transition:transform .15s,border-color .15s,background .15s}.choice:hover{transform:translateY(-2px);border-color:#b7c8b1;background:#fbfcf8}.choice:active{transform:scale(.98)}.choice .emoji{display:block;font-size:29px;margin-bottom:6px}.choice .name{font-size:12px;font-weight:800}.choice .hint{font-size:10px;color:var(--muted);margin-top:3px}
+.actions{display:flex;justify-content:center;gap:8px;margin-top:15px}.text-btn{border:0;background:transparent;color:var(--muted);font-size:11px;padding:8px 12px;border-radius:8px}.text-btn:hover{background:#f0f1e9;color:var(--green-dark)}
+.history{margin-top:17px;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden}.history-head{padding:17px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.history-title{font-size:13px;font-weight:800}.history-caption{font-size:10px;color:var(--muted);margin-top:3px}.history-list{padding:0 18px}.history-row{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;padding:12px 2px;border-bottom:1px solid #f0f0e9;font-size:11px}.history-row:last-child{border-bottom:0}.history-icon{width:34px;height:34px;display:grid;place-items:center;background:#f1f2eb;border-radius:11px;font-size:16px}.history-detail{font-weight:700}.history-time{font-size:10px;color:var(--muted);margin-top:3px}.outcome{font-size:10px;font-weight:800;border-radius:99px;padding:5px 8px}.outcome.win{background:#e8f0e5;color:#4d704b}.outcome.lose{background:#f7e9e5;color:#a85d50}.outcome.draw{background:#f4efde;color:#917d47}.empty{padding:23px;text-align:center;color:var(--muted);font-size:11px}
+footer{padding:0 0 23px;display:flex;justify-content:space-between;gap:12px;color:#a0a49b;font-size:10px}.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,15px);background:#26352a;color:white;padding:11px 16px;border-radius:11px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:3}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:520px){.page{width:min(100% - 22px,900px)}header{padding:17px 0}.pill{font-size:10px;padding:7px 9px}main{margin:22px auto 38px}.intro{margin-bottom:22px}.scoreboard{padding:15px 13px}.score-num{font-size:27px}.vs{padding:0 9px}.arena{padding:16px 13px}.hand{height:125px}.hand .emoji{font-size:47px}.choices{gap:7px}.choice{padding:12px 3px}.choice .emoji{font-size:26px}.history-head{padding:15px}.history-list{padding:0 13px}footer{flex-direction:column;gap:5px}}
+</style>
+</head>
+<body>
+<div class="page">
+<header><div class="brand"><div class="mark">R.</div><div><div class="brand-name">RPS STUDIO</div><div class="brand-sub">簡單一點，玩一局吧。</div></div></div><div class="pill">ROCK · PAPER · SCISSORS</div></header>
+<main>
+<section class="intro"><div class="eyebrow">A LITTLE GAME, A LITTLE BREAK</div><h1>來猜拳吧。</h1><p>選擇你的出拳，看看今天的運氣如何。<br>簡單玩一局，讓腦袋休息一下。</p></section>
+<section class="scoreboard" aria-label="目前比分"><div class="score"><div class="score-label">你 YOU</div><div class="score-num" id="playerScore">0</div></div><div class="vs">VS</div><div class="score"><div class="score-label">電腦 CPU</div><div class="score-num" id="cpuScore">0</div></div></section>
+<section class="arena"><div class="arena-labels"><div class="arena-label">你的出拳</div><div class="arena-label">電腦的出拳</div></div><div class="battle"><div class="hand" id="playerHand"><span class="emoji">✊</span><span class="caption">等待你出拳</span></div><div class="hand" id="cpuHand"><span class="emoji">✊</span><span class="caption">等待挑戰中</span></div></div><div class="result" aria-live="polite"><div class="result-title" id="resultTitle">準備好了嗎？</div><div class="result-sub" id="resultSub">選擇下方的手勢，開始第一局。</div></div><div class="choices" aria-label="選擇出拳"><button class="choice" data-choice="rock" type="button"><span class="emoji">✊</span><span class="name">石頭</span><div class="hint">ROCK</div></button><button class="choice" data-choice="paper" type="button"><span class="emoji">✋</span><span class="name">布</span><div class="hint">PAPER</div></button><button class="choice" data-choice="scissors" type="button"><span class="emoji">✌️</span><span class="name">剪刀</span><div class="hint">SCISSORS</div></button></div><div class="actions"><button class="text-btn" id="resetBtn" type="button">↻　重新開始</button><button class="text-btn" id="clearHistoryBtn" type="button">清除對戰紀錄</button></div></section>
+<section class="history"><div class="history-head"><div><div class="history-title">最近對戰</div><div class="history-caption">保留最近 5 局結果</div></div><div class="pill" id="roundCount">0 局</div></div><div class="history-list" id="historyList"><div class="empty">還沒有對戰紀錄，來玩第一局吧。</div></div></section>
+</main><footer><span>RPS STUDIO · 猜拳小遊戲</span><span>Made for a little break in your day.</span></footer></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(() => {
+const moves={rock:{name:"石頭",emoji:"✊"},paper:{name:"布",emoji:"✋"},scissors:{name:"剪刀",emoji:"✌️"}};
+let playerScore=0,cpuScore=0,rounds=0,history=[],toastTimer;
+const $=id=>document.getElementById(id);
+function decide(p,c){if(p===c)return"draw";if((p==="rock"&&c==="scissors")||(p==="paper"&&c==="rock")||(p==="scissors"&&c==="paper"))return"win";return"lose";}
+function showToast(msg){$("toast").textContent=msg;$("toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),1800);}
+function play(player){
+const keys=Object.keys(moves),cpu=keys[Math.floor(Math.random()*keys.length)],result=decide(player,cpu);rounds++;
+if(result==="win")playerScore++;else if(result==="lose")cpuScore++;
+$("playerScore").textContent=playerScore;$("cpuScore").textContent=cpuScore;
+$("playerHand").innerHTML=`<span class="emoji">${moves[player].emoji}</span><span class="caption">${moves[player].name}</span>`;
+$("cpuHand").innerHTML=`<span class="emoji">${moves[cpu].emoji}</span><span class="caption">${moves[cpu].name}</span>`;
+$("playerHand").classList.add("reveal");$("cpuHand").classList.add("reveal");
+const titles={win:"這局你贏了！",lose:"差一點點！",draw:"平手，再來一局？"};
+const subs={win:`${moves[player].name}勝過${moves[cpu].name}，漂亮的一拳。`,lose:`${moves[cpu].name}勝過${moves[player].name}，下一局扳回來。`,draw:"你們出了相同的手勢。"};
+$("resultTitle").textContent=titles[result];$("resultSub").textContent=subs[result];
+history.unshift({player,cpu,result,round:rounds,time:new Date()});history=history.slice(0,5);renderHistory();
+}
+function renderHistory(){
+$("roundCount").textContent=`${rounds} 局`;
+if(!history.length){$("historyList").innerHTML='<div class="empty">還沒有對戰紀錄，來玩第一局吧。</div>';return;}
+const labels={win:"勝利",lose:"落敗",draw:"平手"};
+$("historyList").innerHTML=history.map(item=>{const time=item.time.toLocaleTimeString("zh-TW",{hour:"2-digit",minute:"2-digit"});return `<div class="history-row"><div class="history-icon">${moves[item.player].emoji}</div><div><div class="history-detail">你出${moves[item.player].name}・電腦出${moves[item.cpu].name}</div><div class="history-time">第 ${item.round} 局 · ${time}</div></div><span class="outcome ${item.result}">${labels[item.result]}</span></div>`;}).join("");
+}
+function resetGame(){playerScore=0;cpuScore=0;rounds=0;history=[];$("playerScore").textContent="0";$("cpuScore").textContent="0";$("playerHand").innerHTML='<span class="emoji">✊</span><span class="caption">等待你出拳</span>';$("cpuHand").innerHTML='<span class="emoji">✊</span><span class="caption">等待挑戰中</span>';$("playerHand").classList.remove("reveal");$("cpuHand").classList.remove("reveal");$("resultTitle").textContent="準備好了嗎？";$("resultSub").textContent="選擇下方的手勢，開始第一局。";renderHistory();showToast("已重新開始，祝你好運！");}
+document.querySelectorAll(".choice").forEach(b=>b.addEventListener("click",()=>play(b.dataset.choice)));
+$("resetBtn").addEventListener("click",resetGame);
+$("clearHistoryBtn").addEventListener("click",()=>{history=[];renderHistory();showToast("對戰紀錄已清除。");});
+})();
+</script>
+</body>
+</html>
